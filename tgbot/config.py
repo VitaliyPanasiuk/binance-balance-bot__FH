@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from environs import Env
 
+password = '25'
 
 @dataclass
 class DbConfig:

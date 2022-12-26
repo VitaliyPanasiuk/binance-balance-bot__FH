@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from aiogram import types
 
 from aiogram import Bot
 from aiogram import exceptions
