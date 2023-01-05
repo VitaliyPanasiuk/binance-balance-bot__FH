@@ -60,6 +60,6 @@ async def test_start(message: Message, state: FSMContext):
     text = message.text
     await state.update_data(time_value=text)
     data = await state.get_data()
-    await generate_deposit(data['deposit'],data['time_value'])
+    await generate_deposit(data['deposit'], data['time_value'])
     photo = FSInputFile('tgbot/misc/output.png')
     await bot.send_photo(user_id, photo)

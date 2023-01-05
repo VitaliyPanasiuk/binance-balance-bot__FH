@@ -197,7 +197,7 @@ async def generate_overview(data):
 				data['earn_usd'].lower(),
 				font=font,
 				fill='#6f7680')	
-		im.save('tgbot/misc/output.png')
+		im.save('tgbot/misc/output_overview.png')
 	except:
 		pass
 
@@ -223,7 +223,7 @@ async def generate_deposit(deposit_value,time_value):
 
 
 		font = ImageFont.truetype(
-			'tgbot/misc/binance.ttf', size=14)
+			'tgbot/misc/binance2.ttf', size=14)
 		draw_lev = ImageDraw.Draw(deposit)
 		draw_lev.text(
 			(394, 763),
@@ -254,7 +254,7 @@ async def generate_deposit(deposit_value,time_value):
 		# new date
 		width_for_time = 394+int(font.getsize(tm_date[0])[0])+int(font.getsize(tm_date[1])[0])+int(font.getsize(tm_date[2])[0])+27
 		font = ImageFont.truetype(
-			'tgbot/misc/binance.ttf', size=14)
+			'tgbot/misc/binance2.ttf', size=14)
 		draw_lev = ImageDraw.Draw(deposit)
 		draw_lev.text(
 			(width_for_time, 763),
@@ -287,16 +287,17 @@ async def generate_deposit(deposit_value,time_value):
 				'tgbot/misc/binance.ttf', size=28)
 		draw_lev = ImageDraw.Draw(deposit)
 		draw_lev.text(
-			(256, 228),
+			(int(296-((int(font.getsize(deposit_value)[0]) + 8 + 54)/2)), 228),
 			deposit_value,
 			font=font,
 			fill='#e1e4eb')
-		deposit.paste(usdt, (256+int(font.getsize(deposit_value)[0])+8, 231), mask=usdt.convert('RGBA'))
+		deposit.paste(usdt, (int(296-((int(font.getsize(deposit_value)[0]) + 8 + 54)/2) + int(font.getsize(deposit_value)[0]) + 8), 231), mask=usdt.convert('RGBA'))
+		# deposit.paste(usdt, (256+int(font.getsize(deposit_value)[0])+8, 231), mask=usdt.convert('RGBA'))
 		deposit.paste(adres, (225, 591), mask=adres.convert('RGBA'))
 		deposit.paste(txid, (225, 663), mask=txid.convert('RGBA'))
 
 
-		deposit.save('tgbot/misc/output.png')
+		deposit.save('tgbot/misc/output_deposit.png')
 	except:
 		pass
  
@@ -322,7 +323,7 @@ async def generate_withdrawal(deposit_value,time_value):
 		tm_time = tm_time.split(':')
 
 		font = ImageFont.truetype(
-			'tgbot/misc/binance.ttf', size=14)
+			'tgbot/misc/binance2.ttf', size=14)
 		draw_lev = ImageDraw.Draw(wt)
 		draw_lev.text(
 			(394, 838),
@@ -350,7 +351,7 @@ async def generate_withdrawal(deposit_value,time_value):
 		# new date
 		width_for_time = 394+int(font.getsize(tm_date[0])[0])+int(font.getsize(tm_date[1])[0])+int(font.getsize(tm_date[2])[0])+27
 		font = ImageFont.truetype(
-			'tgbot/misc/binance.ttf', size=14)
+			'tgbot/misc/binance2.ttf', size=14)
 		draw_lev = ImageDraw.Draw(wt)
 		draw_lev.text(
 			(width_for_time, 838),
@@ -381,18 +382,15 @@ async def generate_withdrawal(deposit_value,time_value):
 					'tgbot/misc/binance.ttf', size=28)
 		draw_lev = ImageDraw.Draw(wt)
 		draw_lev.text(
-			(256, 228),
+			(int(296-((int(font.getsize(deposit_value)[0]) + 8 + 54)/2)), 228),
 			deposit_value,
 			font=font,
 			fill='#e1e4eb')
-		wt.paste(usdt, (256+int(font.getsize(deposit_value)[0])+8, 231), mask=usdt.convert('RGBA'))
+		wt.paste(usdt, (int(296-((int(font.getsize(deposit_value)[0]) + 8 + 54)/2) + int(font.getsize(deposit_value)[0]) + 8), 231), mask=usdt.convert('RGBA'))
 		wt.paste(adres, (225, 617), mask=adres.convert('RGBA'))
 		wt.paste(txid, (225, 691), mask=txid.convert('RGBA'))
+		wt.save('tgbot/misc/output_withdrawal.png')
 
-
-
-
-		wt.save('tgbot/misc/output.png')
 	except:
 		pass
 
@@ -484,7 +482,7 @@ async def generate_spot(total_btc,total_usd,pnl_usd,pnl_per,usdt_spot):
 				fill='#6f7680')	
 
 
-		spot.save('tgbot/misc/output.png')
+		spot.save('tgbot/misc/output_spot.png')
 
 	except:
 		pass
