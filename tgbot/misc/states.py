@@ -11,6 +11,7 @@ class check_password(StatesGroup):
 
 class overview(StatesGroup):
     password = State()
+    theme = State()
     total_btc = State()
     total_usd = State()
     spot_usd = State()
@@ -30,14 +31,17 @@ class overview(StatesGroup):
     
 class deposit(StatesGroup):
     password = State()
+    theme = State()
     deposit = State()
     time_value = State()
 class withdrawal(StatesGroup):
     password = State()
+    theme = State()
     deposit = State()
     time_value = State()
 class spot(StatesGroup):
     password = State()
+    theme = State()
     total_btc = State()
     total_usd = State()
     pnl_usd = State()

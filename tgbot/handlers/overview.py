@@ -47,11 +47,22 @@ async def test_start(message: Message, state: FSMContext):
     user_id = message.from_user.id
     text = message.text
     if text == password:
-        await bot.send_message(user_id, "введите total value(BTC), без BTC и используя запятую")
-        await state.set_state(overview.total_btc)
+        # await bot.send_message(user_id, "введите total value(BTC), без BTC и используя запятую")
+        # await state.set_state(overview.total_btc)
+        await bot.send_message(user_id, "Введите нужную тему(w - светлая, b - темная)")
+        await state.set_state(overview.theme)
     else:
         await bot.send_message(user_id, "wrong,try more")
         await state.set_state(overview.password)
+        
+@overview_router.message_handler(content_types=types.ContentType.TEXT, state=overview.theme)
+async def test_start(message: Message, state: FSMContext):
+    user_id = message.from_user.id
+    text = message.text
+    await state.update_data(theme=text.lower())
+    await bot.send_message(user_id, "введите total value(BTC), без BTC и используя запятую")
+    await state.set_state(overview.total_btc)
+    
         
 @overview_router.message_handler(content_types=types.ContentType.TEXT, state=overview.total_btc)
 async def test_start(message: Message, state: FSMContext):
@@ -180,5 +191,5 @@ async def test_start(message: Message, state: FSMContext):
     await state.update_data(earn_usd=text)
     data = await state.get_data()
     await generate_overview(data)
-    photo = FSInputFile('tgbot/misc/output.png')
+    photo = FSInputFile('tgbot/misc/output_overview.png')
     await bot.send_photo(user_id, photo)

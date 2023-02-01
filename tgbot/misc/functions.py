@@ -26,7 +26,10 @@ bot = Bot(token=config.tg_bot.token, parse_mode="HTML")
 
 async def generate_overview(data):
 	try:
-		im = Image.open('tgbot/misc/overview.png')
+		if data['theme'] == 'w':
+			im = Image.open('tgbot/misc/Woverview.png')
+		else:
+			im = Image.open('tgbot/misc/overview.png')
 		ravno = Image.open('tgbot/misc/ravno.png')
 		inf = Image.open('tgbot/misc/i.png')
 		btc = Image.open('tgbot/misc/btc.png')
@@ -202,10 +205,13 @@ async def generate_overview(data):
 		pass
 
 
-async def generate_deposit(deposit_value,time_value):
+async def generate_deposit(deposit_value,time_value,theme):
 	try:
-		im = Image.open('tgbot/misc/overview.png')
-		deposit = Image.open('tgbot/misc/deposit.png')
+		if theme == 'w':
+			deposit = Image.open('tgbot/misc/Wdeposit.png')
+		else:
+			deposit = Image.open('tgbot/misc/deposit.png')
+		
 		ravno = Image.open('tgbot/misc/ravno.png')
 		inf = Image.open('tgbot/misc/i.png')
 		btc = Image.open('tgbot/misc/btc.png')
@@ -302,11 +308,15 @@ async def generate_deposit(deposit_value,time_value):
 		pass
  
  
-async def generate_withdrawal(deposit_value,time_value):
+async def generate_withdrawal(deposit_value,time_value,theme):
 	try:
+		if theme == 'w':
+			wt = Image.open('tgbot/misc/Wwithdrawal.png')
+		else:
+			wt = Image.open('tgbot/misc/withdrawal.png')
 		im = Image.open('tgbot/misc/overview.png')
 		deposit = Image.open('tgbot/misc/deposit.png')
-		wt = Image.open('tgbot/misc/withdrawal.png')
+		
 		ravno = Image.open('tgbot/misc/ravno.png')
 		inf = Image.open('tgbot/misc/i.png')
 		btc = Image.open('tgbot/misc/btc.png')
@@ -394,12 +404,16 @@ async def generate_withdrawal(deposit_value,time_value):
 	except:
 		pass
 
-async def generate_spot(total_btc,total_usd,pnl_usd,pnl_per,usdt_spot):
+async def generate_spot(total_btc,total_usd,pnl_usd,pnl_per,usdt_spot,theme):
 	try:
+		if theme == 'w':
+			spot = Image.open('tgbot/misc/Wspot.png')
+		else:
+			spot = Image.open('tgbot/misc/spot.png')
 		im = Image.open('tgbot/misc/overview.png')
 		deposit = Image.open('tgbot/misc/deposit.png')
 		wt = Image.open('tgbot/misc/withdrawal.png')
-		spot = Image.open('tgbot/misc/spot.png')
+		
 		ravno = Image.open('tgbot/misc/ravno.png')
 		inf = Image.open('tgbot/misc/i.png')
 		btc = Image.open('tgbot/misc/btc.png')

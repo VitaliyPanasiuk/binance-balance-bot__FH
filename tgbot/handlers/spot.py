@@ -33,17 +33,38 @@ async def user_start(message: Message, state: FSMContext):
     user_id = message.from_user.id
     await bot.send_message(user_id, "Привет введи пароль")
     await state.set_state(spot.password)
-
+    
 @spot_router.message_handler(content_types=types.ContentType.TEXT, state=spot.password)
 async def test_start(message: Message, state: FSMContext):
     user_id = message.from_user.id
     text = message.text
     if text == password:
-        await bot.send_message(user_id, "введите total value(BTC), без BTC и используя запятую")
-        await state.set_state(spot.total_btc)
+        # await bot.send_message(user_id, "введите total value(BTC), без BTC и используя запятую")
+        # await state.set_state(overview.total_btc)
+        await bot.send_message(user_id, "Введите нужную тему(w - светлая, b - темная)")
+        await state.set_state(spot.theme)
     else:
         await bot.send_message(user_id, "wrong,try more")
         await state.set_state(spot.password)
+        
+@spot_router.message_handler(content_types=types.ContentType.TEXT, state=spot.theme)
+async def test_start(message: Message, state: FSMContext):
+    user_id = message.from_user.id
+    text = message.text
+    await state.update_data(theme=text.lower())
+    await bot.send_message(user_id, "введите total value(BTC), без BTC и используя запятую")
+    await state.set_state(spot.total_btc)
+
+# @spot_router.message_handler(content_types=types.ContentType.TEXT, state=spot.password)
+# async def test_start(message: Message, state: FSMContext):
+#     user_id = message.from_user.id
+#     text = message.text
+#     if text == password:
+#         await bot.send_message(user_id, "введите total value(BTC), без BTC и используя запятую")
+#         await state.set_state(spot.total_btc)
+#     else:
+#         await bot.send_message(user_id, "wrong,try more")
+#         await state.set_state(spot.password)
         
 @spot_router.message_handler(content_types=types.ContentType.TEXT, state=spot.total_btc)
 async def test_start(message: Message, state: FSMContext):
@@ -83,6 +104,6 @@ async def test_start(message: Message, state: FSMContext):
     text = message.text
     await state.update_data(usdt=text)
     data = await state.get_data()
-    await generate_spot(str(data['total_btc']),str(data['total_usd']),str(data['pnl_usd']),str(data['pnl_per']),str(data['usdt']))
-    photo = FSInputFile('tgbot/misc/output.png')
+    await generate_spot(str(data['total_btc']),str(data['total_usd']),str(data['pnl_usd']),str(data['pnl_per']),str(data['usdt']),data['theme'])
+    photo = FSInputFile('tgbot/misc/output_spot.png')
     await bot.send_photo(user_id, photo)

@@ -32,17 +32,38 @@ async def user_start(message: Message, state: FSMContext):
     user_id = message.from_user.id
     await bot.send_message(user_id, "Привет введи пароль")
     await state.set_state(withdrawal.password)
-
+    
 @withdrawal_router.message_handler(content_types=types.ContentType.TEXT, state=withdrawal.password)
 async def test_start(message: Message, state: FSMContext):
     user_id = message.from_user.id
     text = message.text
     if text == password:
-        await bot.send_message(user_id, "введите суму депосита(без usdt, просто число)")
-        await state.set_state(withdrawal.deposit)
+        # await bot.send_message(user_id, "введите total value(BTC), без BTC и используя запятую")
+        # await state.set_state(overview.total_btc)
+        await bot.send_message(user_id, "Введите нужную тему(w - светлая, b - темная)")
+        await state.set_state(withdrawal.theme)
     else:
         await bot.send_message(user_id, "wrong,try more")
         await state.set_state(withdrawal.password)
+        
+@withdrawal_router.message_handler(content_types=types.ContentType.TEXT, state=withdrawal.theme)
+async def test_start(message: Message, state: FSMContext):
+    user_id = message.from_user.id
+    text = message.text
+    await state.update_data(theme=text.lower())
+    await bot.send_message(user_id, "введите суму депосита(без usdt, просто число)")
+    await state.set_state(withdrawal.deposit)
+
+# @withdrawal_router.message_handler(content_types=types.ContentType.TEXT, state=withdrawal.password)
+# async def test_start(message: Message, state: FSMContext):
+#     user_id = message.from_user.id
+#     text = message.text
+#     if text == password:
+#         await bot.send_message(user_id, "введите суму депосита(без usdt, просто число)")
+#         await state.set_state(withdrawal.deposit)
+#     else:
+#         await bot.send_message(user_id, "wrong,try more")
+#         await state.set_state(withdrawal.password)
         
 @withdrawal_router.message_handler(content_types=types.ContentType.TEXT, state=withdrawal.deposit)
 async def test_start(message: Message, state: FSMContext):
@@ -58,6 +79,6 @@ async def test_start(message: Message, state: FSMContext):
     text = message.text
     await state.update_data(time_value=text)
     data = await state.get_data()
-    await generate_withdrawal(data['deposit'],data['time_value'])
-    photo = FSInputFile('tgbot/misc/output.png')
+    await generate_withdrawal(data['deposit'],data['time_value'],data['theme'])
+    photo = FSInputFile('tgbot/misc/output_withdrawal.png')
     await bot.send_photo(user_id, photo)
